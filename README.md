@@ -1,4 +1,4 @@
-# Readme
+# local_store
  - ### Description
     경기도 지역화폐 가맹점을 검색하기 위한 open API 서비스 입니다. 
     
