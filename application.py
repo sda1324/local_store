@@ -2,8 +2,9 @@ import os
 
 from flask import Flask, render_template, request
 from flask_restful import Api
-from flaskext.markdown import Markdown
 import requests
+
+from jinja2_markdown import MarkdownExtension, Extension
 
 from rest_store.store import LocalStore
 from forms import TestForm
@@ -13,7 +14,9 @@ application = Flask(__name__)
 application.config['WTF_CSRF_SECRET_KEY'] = os.urandom(24)
 application.config['SECRET_KEY'] = os.urandom(24)
 
-Markdown(application)
+env = application.jinja_env
+env.add_extension(MarkdownExtension)
+env.add_extension(Extension)
 
 api = Api(application)
 api.add_resource(LocalStore, "/store/<local>/<query>/<page>")
