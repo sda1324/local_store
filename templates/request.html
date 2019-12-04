@@ -13,7 +13,9 @@
             <input type="submit" value="REQUEST">
         </form>
     </div>
-    {% if result['result'] == 'success' %}
+    {% if result['result'] == 404 %}
+    <h1>파라미터 오류</h1>
+    {% elif result['result'] == 'success' %}
     <div>
         <table class="table table-bordered">
             <thead>

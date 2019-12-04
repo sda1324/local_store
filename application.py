@@ -19,6 +19,12 @@ api = Api(application)
 api.add_resource(LocalStore, "/store/<local>/<query>/<page>")
 
 
+@application.errorhandler(404)
+def page_not_found(error):
+    print("parameter error")
+    return {'result':404}, 404
+
+
 @application.route('/', methods=['GET', 'POST'])
 def home():
     form = TestForm(url='http://localhost:8080/store/평택시/폐계닭/1')
