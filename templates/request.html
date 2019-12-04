@@ -1,0 +1,53 @@
+{% extends 'template.html' %}
+
+{% block content %}
+
+<body>
+    <h1> API 테스트 페이지</h1><br>
+    <div>
+        <form action="/" method="POST">
+            {{ form.hidden_tag() }}
+            {% for field in form.display %}
+                {{ form[field](size=64) }}
+            {% endfor %}
+            <input type="submit" value="REQUEST">
+        </form>
+    </div>
+    {% if result['result'] == 'success' %}
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>가맹점</td>
+                    <td>전화번호</td>
+                    <td>지역명</td>
+                    <td>지번주소</td>
+                    <td>도로명주소</td>
+                    <td>카테고리</td>
+                    <td>설명</td>
+                    <td>링크</td>
+                    <td>위도</td>
+                    <td>경도</td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in result['items'] %}
+                <tr>
+                    <td>{{ item['title'] }}</td>
+                    <td>{{ item['phone'] }}</td>
+                    <td>{{ item['local'] }}</td>
+                    <td>{{ item['address'] }}</td>
+                    <td>{{ item['roadAddress'] }}</td>
+                    <td>{{ item['category'] }}</td>
+                    <td>{{ item['description'] }}</td>
+                    <td>{{ item['link'] }}</td>
+                    <td>{{ item['LAT'] }}</td>
+                    <td>{{ item['LOGT'] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</body>
+{% endblock %}
