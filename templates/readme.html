@@ -1,5 +1,12 @@
 {% extends 'template.html' %}
 
 {% block content %}
-    {{ readme|markdown}}
+    <style>
+        table, th, td {
+            border: 1px solid;
+        }
+    </style>
+    {% markdown %}
+        {{ readme }}
+    {% endmarkdown %}
 {% endblock %}
