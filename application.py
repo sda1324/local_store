@@ -4,8 +4,6 @@ from flask import Flask, render_template, request
 from flask_restful import Api
 import requests
 
-from jinja2_markdown import MarkdownExtension, Extension
-
 from rest_store.store import LocalStore
 from forms import TestForm
 
@@ -13,10 +11,6 @@ application = Flask(__name__)
 
 application.config['WTF_CSRF_SECRET_KEY'] = os.urandom(24)
 application.config['SECRET_KEY'] = os.urandom(24)
-
-env = application.jinja_env
-env.add_extension(MarkdownExtension)
-env.add_extension(Extension)
 
 api = Api(application)
 api.add_resource(LocalStore, "/store/<local>/<query>/<page>")
@@ -42,13 +36,6 @@ def home():
         if form.validate_on_submit():
             result = requests.get(request.form['url']).json()
             return render_template('request.html', nav_menu='request', form=form, result=result)
-
-
-@application.route('/readme')
-def readme():
-    with open('README.md', 'r', encoding='utf-8') as f:
-        content = f.read()
-    return render_template('readme.html', nav_menu='readme', readme=content)
 
 
 @application.route('/page')

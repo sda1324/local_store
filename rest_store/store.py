@@ -13,8 +13,6 @@ class LocalStore(Resource):
         local_result = []
 
     def get(self, local, query, page):
-        if local and query and page:
-            print("ddddddddd")
         i = 1
         if len(self.local_result) == 0:
             while(True):
