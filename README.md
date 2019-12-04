@@ -80,7 +80,6 @@
 # Pakage
  - Flask
  - Flask_RESTful
- - Flask_Markdown
  - Flask_WTF
  - Requests
 
