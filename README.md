@@ -37,7 +37,7 @@
         |LAT|double|위도|
         |LOGT|double|경도|
     
-    - 출력 예시
+    - #### 출력 예시
         ```
         {
             "result": "success",
