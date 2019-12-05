@@ -1,13 +1,8 @@
 {% extends 'template.html' %}
 
 {% block content %}
-    <style>
-    table{
-        width:  ;
-    }
-    </style>
 <body>
-    <h1> API 테스트 페이지</h1><br>
+    <h1>Request API</h1><br>
     <div>
         <form action="/" method="POST", class="form-horizontal">
             <div class="form-group">
@@ -27,12 +22,14 @@
         </form>
     </div>
     {% if result['result'] == 404 %}
-    <h1>파라미터 오류</h1>
+    <h2>파라미터 오류</h2>
     {% elif result['result'] == 'success' %}
-    <div>
-        <table class="table table-bordered">
+    <h2>Result</h2>
+    <div class="table-responsive">
+        <table class="table table-condensed">
             <thead>
                 <tr>
+                    <td>#</td>
                     <td>가맹점</td>
                     <td>전화번호</td>
                     <td>지역명</td>
@@ -48,6 +45,7 @@
             <tbody>
             {% for item in result['items'] %}
                 <tr>
+                    <td>{{ loop.index }}</td>
                     <td>{{ item['title'] }}</td>
                     <td>{{ item['phone'] }}</td>
                     <td>{{ item['local'] }}</td>
