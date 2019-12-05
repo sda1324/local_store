@@ -1,5 +1,13 @@
 {% extends 'template.html' %}
 
 {% block content %}
-<h1>page</h1>
+    <h1>page</h1>
+    <form action="/page" method="POST">
+        {{ form.hidden_tag() }}
+        {% for field in form.display %}
+            {{ form[field].label() }}
+            {{ form[field]() }}
+        {% endfor %}
+        <button type="submit">Request</button>
+    </form>
 {% endblock %}

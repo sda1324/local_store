@@ -5,7 +5,7 @@ from flask_restful import Api
 import requests
 
 from rest_store.store import LocalStore
-from forms import TestForm
+from forms import TestForm, SearchForm
 
 application = Flask(__name__)
 
@@ -38,9 +38,16 @@ def home():
             return render_template('request.html', nav_menu='request', form=form, result=result)
 
 
-@application.route('/page')
+@application.route('/page', methods=['GET', 'POST'])
 def page():
-    return render_template('page.html', nav_menu='page')
+    form = SearchForm()
+
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            data = request.form.get('location')
+            query = request.form.get('query')
+            print(data, query)
+    return render_template('page.html', form=form, nav_menu='page')
 
 
 if __name__ == '__main__':
