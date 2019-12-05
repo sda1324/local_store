@@ -1,12 +1,12 @@
 # local_store
  - ### Description
     경기도 지역화폐 가맹점을 검색하기 위한 open API 서비스 입니다.
- * * *
+
  - ### URL
     ```
     GET http://localhost:8080/store/<local>/<query>/<page>
     ```
-* * *
+
  - ### 요청
     - ### 요청 변수 
         |요청 변수명|타입|설명|
@@ -26,7 +26,7 @@
         ```
         http://localhost:8080/store/평택시/폐계닭/1
         ```
-* * *
+
  - ### 응답
     - ### 출력 포맷
         ```
@@ -75,7 +75,8 @@
             ]
          }
         ```
-* * *
+
+        
 # Pakage
  - Flask
  - Flask_RESTful
