@@ -1,16 +1,29 @@
 {% extends 'template.html' %}
 
 {% block content %}
-
+    <style>
+    table{
+        width:  ;
+    }
+    </style>
 <body>
     <h1> API 테스트 페이지</h1><br>
     <div>
-        <form action="/" method="POST">
-            {{ form.hidden_tag() }}
-            {% for field in form.display %}
-                {{ form[field](size=64) }}
-            {% endfor %}
-            <input type="submit" value="REQUEST">
+        <form action="/" method="POST", class="form-horizontal">
+            <div class="form-group">
+                {{ form.hidden_tag() }}
+                {% for field in form.display %}
+                    <div class="row">
+                        {{ form[field].label(style="margin:10px;") }}
+                        <div class="col-sm-8">
+                            {{ form[field](class="form-control",style="width: 100%") }}
+                        </div>
+                        <div class="col-sm-1">
+                            <button type="submit" class="btn btn-primary col-xs-2">Request</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </form>
     </div>
     {% if result['result'] == 404 %}
