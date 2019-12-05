@@ -21,8 +21,10 @@
             </div>
         </form>
     </div>
+
     {% if result['result'] == 404 %}
     <h2>파라미터 오류</h2>
+
     {% elif result['result'] == 'success' %}
     <h2>Result</h2>
     <div class="table-responsive">
