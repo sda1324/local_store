@@ -1,7 +1,7 @@
 {% extends 'template.html' %}
 
 {% block content %}
-    <h1>page</h1>
+    <h1>Search</h1>
     <form action="/page" method="POST">
         {{ form.hidden_tag() }}
         {% for field in form.display %}
@@ -9,5 +9,69 @@
             {{ form[field]() }}
         {% endfor %}
         <button type="submit">Request</button>
+        </br>
+        {% if result['result'] == 404 %}
+        <h2>파라미터 오류</h2>
+
+        {% elif result['result'] == 'success' %}
+        <h2>Result</h2>
+        <div class="table-responsive">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <td>가맹점</td>
+                        <td>전화번호</td>
+                        <td>지번주소</td>
+                        <td>도로명주소</td>
+                        <td>카테고리</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in result['items'] %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ item['title'] }}</td>
+                        <td>{{ item['phone'] }}</td>
+                        <td>{{ item['address'] }}</td>
+                        <td>{{ item['roadAddress'] }}</td>
+                        <td>{{ item['category'] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        </br>
+        {% if page >= 1 %}
+            {% if page != 1 %}
+            <input type="submit" name="prev" value="pre">
+            {% endif %}
+
+            <input type="text" name="page" id="page" readonly="true" value="{{ page }}">
+            <input type="submit" name="next" value="next">
+        {% endif %}
     </form>
+
+    <div id="map"></div>
+    <script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: new google.maps.LatLng(-25.363882,131.044922),
+          zoom: 8
+        });
+
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(-25.363882,131.044922),
+            title:"Hello World!"
+        });
+
+        marker.setMap(map);
+      }
+    </script>
+
+  <!--  Google Maps Plugin    -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnGBriFm3QhaHTfDg337q9Gh8B-ogJf9I&callback=initMap"></script>
+
 {% endblock %}

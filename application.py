@@ -41,13 +41,32 @@ def home():
 @application.route('/page', methods=['GET', 'POST'])
 def page():
     form = SearchForm()
+    page = 0
+    result = {
+        'result': 'None'
+    }
+    if request.method == "GET":
+        return render_template('page.html', form=form, nav_menu='page', page=page, result=result)
 
     if request.method == 'POST':
         if form.validate_on_submit():
-            data = request.form.get('location')
+            loc = request.form.get('location')
             query = request.form.get('query')
-            print(data, query)
-    return render_template('page.html', form=form, nav_menu='page')
+
+            #왼쪽 버튼 오른쪽 버튼, 검색 버튼에 따른 page수 조정
+            page = request.form.get('page')
+            if page is None or int(page) == 0:
+                page = 1
+            else :
+                page = int(page)
+                if "next" in request.form:
+                    page += 1
+                elif "prev" in request.form:
+                    page -= 1
+            url = 'http://localhost:8080/store/{0}/{1}/{2}'.format(loc, query, page)
+            print(url)
+            result = requests.get(url).json()
+        return render_template('page.html', form=form, nav_menu='page', page=page, result=result)
 
 
 if __name__ == '__main__':
