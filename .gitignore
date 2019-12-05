@@ -1,4 +1,6 @@
 __pycache__
 rest_store/__pycache__
 .idea
+
+.DS_Store
 keys.py
