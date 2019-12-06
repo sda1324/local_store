@@ -22,47 +22,73 @@
         </form>
     </div>
 
-    {% if result['result'] == 404 %}
-    <h2>파라미터 오류</h2>
+    {% if result['result'] == 400 %}
+        {{ result['error'] }}
 
-    {% elif result['result'] == 'success' %}
-    <h2>Result</h2>
-    <div class="table-responsive">
-        <table class="table table-condensed">
-            <thead>
-                <tr>
-                    <td>#</td>
-                    <td>가맹점</td>
-                    <td>전화번호</td>
-                    <td>지역명</td>
-                    <td>지번주소</td>
-                    <td>도로명주소</td>
-                    <td>카테고리</td>
-                    <td>설명</td>
-                    <td>링크</td>
-                    <td>위도</td>
-                    <td>경도</td>
-                </tr>
-            </thead>
-            <tbody>
-            {% for item in result['items'] %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ item['title'] }}</td>
-                    <td>{{ item['phone'] }}</td>
-                    <td>{{ item['local'] }}</td>
-                    <td>{{ item['address'] }}</td>
-                    <td>{{ item['roadAddress'] }}</td>
-                    <td>{{ item['category'] }}</td>
-                    <td>{{ item['description'] }}</td>
-                    <td>{{ item['link'] }}</td>
-                    <td>{{ item['LAT'] }}</td>
-                    <td>{{ item['LOGT'] }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    {% elif result['result'] == 200 %}
+        <h2>Result</h2>
+        <p><textarea id="jsonText" rows="15" cols="80">{{ result }}</textarea></p>
+        <p><input type="button" onclick="btnSubmit()" value="json pretty ▼"></p>
+        <p><textarea id="prettyJson" readonly="true" rows="15" cols="80"></textarea></p>
     {% endif %}
+
+    <script type="text/javascript">
+        const TAB = ' ';
+        function prettyJson(jsonText) {
+            if(!jsonText) {
+                return jsonText;
+            }
+            var prettyJson = new Array();
+            var depth = 0;
+            var currChar;
+            var prevChar;
+            var doubleQuoteIn = false;
+            for(var i = 0; i < jsonText.length; i++) {
+                currChar = jsonText.charAt(i);
+                if(currChar == '\"') {
+                    if(prevChar != '\\') {
+                        doubleQuoteIn = !doubleQuoteIn;
+                    }
+                } switch(currChar) {
+                    case '{':
+                        prettyJson.push(currChar);
+                        if(!doubleQuoteIn) {
+                            prettyJson.push('\n');
+                            insertTab(prettyJson, depth+=4);
+                        }
+                        break;
+                    case '}':
+                        if(!doubleQuoteIn) {
+                            prettyJson.push('\n');
+                            insertTab(prettyJson, depth-=4);
+                        }
+                        prettyJson.push(currChar);
+                        break;
+                    case ',':
+                        prettyJson.push(currChar);
+                        if(!doubleQuoteIn) {
+                            prettyJson.push('\n');
+                            insertTab(prettyJson, depth);
+                        }
+                        break;
+                    default:
+                        prettyJson.push(currChar);
+                        break;
+                }
+                prevChar = currChar;
+            }
+            return prettyJson.join('');
+        }
+        function insertTab(prettyJson, depth) {
+            for(var i = 0; i < depth; i++) {
+                prettyJson.push(TAB);
+            }
+        }
+        function btnSubmit() {
+            var jsonText = document.getElementById('jsonText').value;
+            document.getElementById('prettyJson').value = prettyJson(jsonText);
+        }
+    </script>
+
 </body>
 {% endblock %}

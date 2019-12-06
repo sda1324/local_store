@@ -16,12 +16,6 @@ api = Api(application)
 api.add_resource(LocalStore, "/store/<local>/<query>/<page>")
 
 
-@application.errorhandler(404)
-def page_not_found(error):
-    print("parameter error")
-    return {'result':404}, 404
-
-
 @application.route('/', methods=['GET', 'POST'])
 def home():
     form = TestForm(url='http://localhost:8080/store/평택시/폐계닭/1')
@@ -35,7 +29,7 @@ def home():
     if request.method == 'POST':
         if form.validate_on_submit():
             result = requests.get(request.form['url']).json()
-            return render_template('request.html', nav_menu='request', form=form, result=result)
+        return render_template('request.html', nav_menu='request', form=form, result=result)
 
 
 @application.route('/page', methods=['GET', 'POST'])
@@ -63,6 +57,8 @@ def page():
                     page += 1
                 elif "prev" in request.form:
                     page -= 1
+                elif "search" in request.form:
+                    page = 1
             url = 'http://localhost:8080/store/{0}/{1}/{2}'.format(loc, query, page)
             print(url)
             result = requests.get(url).json()

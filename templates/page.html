@@ -2,76 +2,97 @@
 
 {% block content %}
     <h1>Search</h1>
-    <form action="/page" method="POST">
-        {{ form.hidden_tag() }}
-        {% for field in form.display %}
-            {{ form[field].label() }}
-            {{ form[field]() }}
-        {% endfor %}
-        <button type="submit">Request</button>
-        </br>
-        {% if result['result'] == 404 %}
-        <h2>파라미터 오류</h2>
+    <form action="/page" method="POST" class="form-horizontal">
+        <div class="form-group">
+            <div class="row">
+                {{ form.hidden_tag() }}
+                <div class="col-md-1">
+                    {{ form['location'].label() }}
+                    {{ form['location'](class="form-control") }}
+                </div>
+                <div class="col-md-4">
+                    {{ form['query'].label() }}
+                    {{ form['query'](class="form-control") }}
+                </div>
+                <button type="submit" name="search" class="btn btn-primary col-xs-2">Search</button>
+            </div>
+            </br>
+            {% if result['result'] == 400 %}
+            <h2>{{ result['error'] }}</h2>
 
-        {% elif result['result'] == 'success' %}
-        <h2>Result</h2>
-        <div class="table-responsive">
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <td>#</td>
-                        <td>가맹점</td>
-                        <td>전화번호</td>
-                        <td>지번주소</td>
-                        <td>도로명주소</td>
-                        <td>카테고리</td>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for item in result['items'] %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ item['title'] }}</td>
-                        <td>{{ item['phone'] }}</td>
-                        <td>{{ item['address'] }}</td>
-                        <td>{{ item['roadAddress'] }}</td>
-                        <td>{{ item['category'] }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endif %}
-        </br>
-        {% if page >= 1 %}
-            {% if page != 1 %}
-            <input type="submit" name="prev" value="pre">
+            {% elif result['result'] == 200 %}
+            <h2>Result</h2>
+            <div class="table-responsive">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <td>#</td>
+                            <td>가맹점</td>
+                            <td>전화번호</td>
+                            <td>지번주소</td>
+                            <td>도로명주소</td>
+                            <td>카테고리</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in result['items'] %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ item['title'] }}</td>
+                            <td>{{ item['phone'] }}</td>
+                            <td>{{ item['address'] }}</td>
+                            <td>{{ item['roadAddress'] }}</td>
+                            <td>{{ item['category'] }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    {% if page != 1 %}
+                    <input type="submit" name="prev" value="pre" class="btn btn-primary">
+                    {% endif %}
+                    <input type="text" size="1" style="text-align: center;" name="page" id="page" readonly="true" value="{{ page }}">
+                    <input type="submit" name="next" value="next" class="btn btn-primary">
+                </div>
+            </div>
+            </br>
+            <div class="row text-center">
+                <div class="col-md-3"></div>
+                <div id="map" class="col-md-6"></div>
+            </div>
             {% endif %}
-
-            <input type="text" name="page" id="page" readonly="true" value="{{ page }}">
-            <input type="submit" name="next" value="next">
-        {% endif %}
+        </div>
     </form>
 
-    <div id="map"></div>
     <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: new google.maps.LatLng(-25.363882,131.044922),
-          zoom: 8
-        });
+        var map;
+        function initMap() {
+            lat = 37.007597;
+            logt = 126.977944;
+            var result_str = '{{ result }}';
+            result_str = result_str.replace(/&#39;/g, '\"');
+            var result = JSON.parse(result_str);
+            if( result.length > 0 ){
+                lat = result['itmes'][0]['LAT']*1;
+                logt = result['itmes'][0]['LOGT']*1;
+            }
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: new google.maps.LatLng(lat, logt),
+                zoom: 12
+            });
+            for(key in result['items']) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(result['items'][key]['LAT']*1, result['items'][key]['LOGT']*1),
+                    title: result['items'][key]['title']
+                });
 
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(-25.363882,131.044922),
-            title:"Hello World!"
-        });
-
-        marker.setMap(map);
-      }
+                marker.setMap(map);
+            }
+        }
     </script>
-
-  <!--  Google Maps Plugin    -->
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnGBriFm3QhaHTfDg337q9Gh8B-ogJf9I&callback=initMap"></script>
+    <!--  Google Maps Plugin    -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnGBriFm3QhaHTfDg337q9Gh8B-ogJf9I&callback=initMap"></script>
 
 {% endblock %}
