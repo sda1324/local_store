@@ -8,7 +8,8 @@ from difflib import SequenceMatcher
 
 class LocalStore(Resource):
     local_result = []
-
+    local_update = {}
+    local_updateCnt ={}
     def __init__(self):
         local_result = []
 
@@ -22,13 +23,27 @@ class LocalStore(Resource):
             }
             return result, 400
 
-        if len(self.local_result) == 0:
+        if local in self.local_updateCnt and self.local_updateCnt[local] != 100:
+            self.local_updateCnt[local] = self.local_updateCnt[local]+1
+            self.local_result = self.local_update[local]
+        else:
+            self.local_updateCnt[local] = 1
             while(True):
                 result = getLocalStore(local, i)['RegionMnyFacltStus'][1]['row']
                 self.local_result.extend(result)
                 i += 1
                 if len(result) != 100:
                     break
+            self.local_update[local] = self.local_result
+            self.local_result = self.local_update[local]
+
+        # if len(self.local_result) == 0:
+        #     while(True):
+        #         result = getLocalStore(local, i)['RegionMnyFacltStus'][1]['row']
+        #         self.local_result.extend(result)
+        #         i += 1
+        #         if len(result) != 100:
+        #             break
 
         result = naverSearch(local + " " + query, 1 + (int(page)-1)*30)
         search_result = result['items']
@@ -73,4 +88,3 @@ class LocalStore(Resource):
         result['items'] = items
 
         return result, 200
-
