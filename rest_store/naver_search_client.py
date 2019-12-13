@@ -27,4 +27,4 @@ def naverSearch(query, start=1):
 
 
 if __name__ == '__main__':
-    naverSearch('평택 곱창')
+    print(naverSearch('평택 폐계닭'))
