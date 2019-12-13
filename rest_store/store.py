@@ -17,6 +17,7 @@ class LocalStore(Resource):
     def get(self, local, query, page):
         i = 1
         if local not in local_code:
+            print(local)
             result = {
                 'result': 400,
                 'error': '없는 지역명입니다.'
@@ -37,7 +38,9 @@ class LocalStore(Resource):
             self.local_update[local] = self.local_result
             self.local_result = self.local_update[local]
 
-        result = naverSearch(local + " " + query, 1 + (int(page)-1)*30)
+        if local == '광주시':
+            local = '경기도 ' + local
+        result = naverSearch(local[:-1] + " " + query, 1 + (int(page)-1)*30)
         search_result = result['items']
 
         result = {
