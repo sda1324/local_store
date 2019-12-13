@@ -1,6 +1,6 @@
 __pycache__
 rest_store/__pycache__
 .idea
-
+.elasticbeanstalk
 .DS_Store
 keys.py
