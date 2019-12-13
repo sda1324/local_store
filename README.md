@@ -1,10 +1,10 @@
 # local_store
  - ### Description
-    경기도 지역화폐 가맹점을 검색하기 위한 open API 서비스 입니다.
+    경기도 지역화폐 가맹점을 검색하기 위한 open API 서비스 입니다. 기존 경기데이터드림의 지역화폐 가맹점 현황 API와 네이버의 지역 검색 API를 활용하여 서비스를 제공합니다. 기존 지역화폐 API나 이를 이용한 어플리케이션의 검색기능이 부족하다고 생각하여 네이버 지역 검색 API를 더하였습니다. 이를 통해 더 나은 지역화폐 가맹점 검색 서비스를 제공합니다.
 
  - ### URL
     ```
-    GET http://localhost:8080/store/<local>/<query>/<page>
+    GET http://localhost:8080/store/{local}/{query}/{page}
     ```
 
  - ### 요청
