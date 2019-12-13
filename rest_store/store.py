@@ -9,14 +9,14 @@ from difflib import SequenceMatcher
 class LocalStore(Resource):
     local_result = []
     local_update = {}
-    local_updateCnt ={}
+    local_updateCnt = {}
+
     def __init__(self):
-        local_result = []
+        pass
 
     def get(self, local, query, page):
         i = 1
         if local not in local_code:
-            print(local_code)
             result = {
                 'result': 400,
                 'error': '없는 지역명입니다.'
@@ -37,21 +37,8 @@ class LocalStore(Resource):
             self.local_update[local] = self.local_result
             self.local_result = self.local_update[local]
 
-        # if len(self.local_result) == 0:
-        #     while(True):
-        #         result = getLocalStore(local, i)['RegionMnyFacltStus'][1]['row']
-        #         self.local_result.extend(result)
-        #         i += 1
-        #         if len(result) != 100:
-        #             break
-
         result = naverSearch(local + " " + query, 1 + (int(page)-1)*30)
         search_result = result['items']
-
-        ####
-        for item in self.local_result:
-            print(item['CMPNM_NM'])
-        ####
 
         result = {
             'result': 200
@@ -68,7 +55,6 @@ class LocalStore(Resource):
                     i = idx+1;
                     search_title = search_item['title'].replace('<b>', '').replace('</b>', '').replace('&amp;', '&').split()[0]
                     local_name = self.local_result[idx]['CMPNM_NM']
-                    print(search_title + ' vs ' + local_name)
 
                     if SequenceMatcher(None, search_title, local_name).ratio() > 0.5 or search_title in local_name.replace(' ', ''):
                         item = {

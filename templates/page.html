@@ -69,18 +69,18 @@
     <script>
         var map;
         function initMap() {
-            lat = 37.007597;
-            logt = 126.977944;
+            lat = 37.566746;
+            logt = 126.977919;
             var result_str = '{{ result }}';
             result_str = result_str.replace(/&#39;/g, '\"');
             var result = JSON.parse(result_str);
-            if( result.length > 0 ){
-                lat = result['itmes'][0]['LAT']*1;
-                logt = result['itmes'][0]['LOGT']*1;
+            if( result.items.length > 0 ){
+                lat = result.items[0]['LAT']*1;
+                logt = result.items[0]['LOGT']*1;
             }
             map = new google.maps.Map(document.getElementById('map'), {
                 center: new google.maps.LatLng(lat, logt),
-                zoom: 12
+                zoom: 10
             });
             for(key in result['items']) {
                 var marker = new google.maps.Marker({

@@ -8,7 +8,7 @@
             <div class="form-group">
                 {{ form.hidden_tag() }}
                 {% for field in form.display %}
-                    <div class="row">
+                    <div class="row text-center">
                         {{ form[field].label(style="margin:10px;") }}
                         <div class="col-sm-8">
                             {{ form[field](class="form-control",style="width: 100%") }}
@@ -27,9 +27,23 @@
 
     {% elif result['result'] == 200 %}
         <h2>Result</h2>
-        <p><textarea id="jsonText" rows="15" cols="80">{{ result }}</textarea></p>
-        <p><input type="button" onclick="btnSubmit()" value="json pretty ▼"></p>
-        <p><textarea id="prettyJson" readonly="true" rows="15" cols="80"></textarea></p>
+        <div class="row text-center">
+            <div class="col-sm-10">
+                <p><textarea id="jsonText" readonly="true" rows="20" style="width: 100%;">{{ result }}</textarea></p>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-sm-10">
+                <p><input type="button" onclick="btnSubmit()" value="json pretty ▼"></p>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-sm-10">
+                <p><textarea id="prettyJson" readonly="true" rows="20" style="width: 100%;"></textarea></p>
+            </div>
+        </div>
     {% endif %}
 
     <script type="text/javascript">

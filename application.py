@@ -60,7 +60,6 @@ def page():
                 elif "search" in request.form:
                     page = 1
             url = 'http://localhost:8080/store/{0}/{1}/{2}'.format(loc, query, page)
-            print(url)
             result = requests.get(url).json()
         return render_template('page.html', form=form, nav_menu='page', page=page, result=result)
 

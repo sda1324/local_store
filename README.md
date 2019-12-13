@@ -58,22 +58,33 @@
     - ### 출력 예시
         ```json
         {
-            "result": "success",
+            "result": 200, 
             "items": [
                 {
-                    "title": "구군계닭집",
-                    "phone": "031-652-8394",
-                    "link": "http://cityfood.co.kr/h1/gugun",
-                    "local": "평택시",
-                    "address": "경기도 평택시 합정동 922-11",
-                    "roadAddress": "경기도 평택시 조개터로5번길 22-9",
-                    "category": "한식>닭요리",
-                    "description": "",
-                    "LAT": "36.9887899",
-                    "LOGT": "127.1002153"
-                }
+                    "title": "소문난폐계닭", 
+                    "phone": "", 
+                    "link": "", 
+                    "local": "평택시", 
+                    "address": "경기도 평택시 비전동 871-11", 
+                    "roadAddress": "경기도 평택시 문화촌로11번길 7-14", 
+                    "category": "한식>닭요리", 
+                    "description": "", 
+                    "LAT": "36.9968805", 
+                    "LOGT": "127.1131973"
+                }, 
+                {
+                    "title": "구군계닭집", 
+                    "phone": "031-652-8394", 
+                    "link": "http://cityfood.co.kr/h1/gugun", 
+                    "local": "평택시", 
+                    "address": "경기도 평택시 합정동 922-11", 
+                    "roadAddress": "경기도 평택시 조개터로5번길 22-9", 
+                    "category": "한식>닭요리", 
+                    "description": "", 
+                    "LAT": "36.9887899", 
+                    "LOGT": "127.1002153"}
             ]
-         }
+        }
         ```
 
         
@@ -86,16 +97,16 @@
 # ToDo
 1. api 구현
     - 이름 비교 기능 [ O ]
-    - 속도 개선 [ ]
+    - 속도 개선 [ O ]
     - 오류 처리
-        - 네이버 검색 결과 없을 때 예외처리 [ ]
         - 오류 코드 알려주기 [ O ]
 
 2. api 요청 페이지 [ O ]
     - 오류 표시 [ O ]
-    - 결과 표시 꾸미기 [  ]
+    - 결과 표시 꾸미기 [ O ]
 
 3. api 활용 페이지 [ O ]
+    - 지도 첫 위치 [ O ]
 
 4. 깃허브 [ O ]
 
